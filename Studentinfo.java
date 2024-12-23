@@ -34,19 +34,23 @@ class Student {
     public boolean hasPassed() {
         return sub1 >= 35 && sub2 >= 35 && sub3 >= 35;  // Assume passing marks are 35 or above in each subject
     }
+
+    // Check if fee is cleared or pending
+    public boolean isFeeCleared() {
+        return fee <= 50000; // Assuming fee is cleared if it's <= 50000
+    }
 }
 
- class StudentMarks {
+class StudentMarks {
 
     static int getRandom(int min, int max) {
         Random r = new Random();
-        int result = r.nextInt(max - min) + min;
-        return result;
+        return r.nextInt(max - min) + min;
     }
 
     public static void main(String[] args) {
-        Student[] stu = new Student[500];
-        
+        Student[] stu = new Student[35]; // Changed to 35 to match the loop count
+
         // Create student data
         for (int i = 0; i < 35; i++) {
             stu[i] = new Student(getRandom(50, 7890), "Student" + i, getRandom(0, 100), getRandom(10, 90),
@@ -57,12 +61,22 @@ class Student {
         List<Student> passStudents = new ArrayList<>();
         List<Student> failStudents = new ArrayList<>();
 
-        // Categorize students as pass or fail
-        for (int i = 0; i < 30; i++) {
+        // Lists to hold students with cleared and pending fees
+        List<Student> clearedFeeStudents = new ArrayList<>();
+        List<Student> pendingFeeStudents = new ArrayList<>();
+
+        // Categorize students as pass or fail and fee status
+        for (int i = 0; i < 35; i++) {
             if (stu[i].hasPassed()) {
                 passStudents.add(stu[i]);
             } else {
                 failStudents.add(stu[i]);
+            }
+
+            if (stu[i].isFeeCleared()) {
+                clearedFeeStudents.add(stu[i]);
+            } else {
+                pendingFeeStudents.add(stu[i]);
             }
         }
 
@@ -74,6 +88,17 @@ class Student {
 
         System.out.println("\nFailed Students: ");
         for (Student s : failStudents) {
+            System.out.println(s);
+        }
+
+        // Output fee status students
+        System.out.println("\nStudents with Cleared Fees: ");
+        for (Student s : clearedFeeStudents) {
+            System.out.println(s);
+        }
+
+        System.out.println("\nStudents with Pending Fees: ");
+        for (Student s : pendingFeeStudents) {
             System.out.println(s);
         }
     }
